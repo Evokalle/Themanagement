@@ -25,6 +25,7 @@
 		
 		// Animation
 		public var speed:Number = 5;
+		
 		//*************************
 		// Constructor:
 		
@@ -37,6 +38,7 @@
 			
 			// Update screen every frame
 			addEventListener(Event.ENTER_FRAME,enterFrameHandler);
+			addEventListener(Event.ENTER_FRAME,moi);
 			
 			
 		}
@@ -53,51 +55,94 @@
 		{
 			 
 			// Move up, down, left, or right
-			if( left && !right ) {
+			if( left ) {
 				beetle.x -= speed;
 				beetle.rotation = 90;
 				
 			}
-			if( right && !left ) {
+			if( right ) {
 				beetle.x += speed;
 				beetle.rotation = 270;
 			}
-			if( up && !down ) {
+			if( up ) {
 				beetle.y -= speed;
 				beetle.rotation = 180;
 			}
-			if( down && !up ) {
+			if( down ) {
 				beetle.y += speed;
 				beetle.rotation = 0;
 			}
 			
 			// Move diagonally
-			if( left && up && !right && !down ) {
-				beetle.rotation = 315;
-			}
-			if( right && up && !left && !down ) {
+			if( down && !right ) {
 				beetle.rotation = 45;
 			}
-			if( left && down && !right && !up ) {
-				beetle.rotation = 225;
+			if( down && !left ) {
+				beetle.rotation = 315;
 			}
-			if( right && down && !left && !up ) {
+			if( up && !right ) {
 				beetle.rotation = 135;
+			}
+			if( up && !left ) {
+				beetle.rotation = -135;
 			}
 			
 			// Loop to opposite side of the masked 
 			// area when the beetle travels off-screen.
 			if( beetle.y < -800 ){
-				beetle.y = 1600;
-			}
-			if( beetle.y > 1600 ){
 				beetle.y = -800;
 			}
+			if( beetle.y > 1600 ){
+				beetle.y = 1600;
+			}
 			if( beetle.x < -890 ){
-				beetle.x = 1790;
+				beetle.x = -890;
 			}
 			if( beetle.x > 1790 ){
-				beetle.x = -890;
+				beetle.x = 1790;
+			}
+		}
+		
+		
+		protected function moi(event:Event):void
+		{
+			// Detect if edges of the player beetle 
+			// are colliding with the maze walls.
+			if( down && !up ) {
+				beetle.y += 0;
+				if( seinä.wall.hitTestPoint(beetle.x,beetle.y+beetle.height,true) ){
+					beetle.y -= 5;
+				}
+				if(seinä.wall.hitTestPoint(beetle.x+beetle.width,beetle.y+beetle.height,true) ){
+					beetle.y -= 5;
+				}
+			}
+			if(  up && !down ) {
+				beetle.y -= 0;
+				if( seinä.wall.hitTestPoint(beetle.x,beetle.y,true) ){
+					beetle.y += 5;
+				}
+				if( seinä.wall.hitTestPoint(beetle.x+beetle.width,beetle.y,true) ){
+					beetle.y += 5;
+				}
+			}
+			if( left && !right ) {
+				beetle.x -= 0;
+				if( seinä.wall.hitTestPoint(beetle.x,beetle.y,true) ){
+					beetle.x += 5;
+				}
+				if( seinä.wall.hitTestPoint(beetle.x,beetle.y+height,true) ){
+					beetle.x += 5;
+				}
+			}
+			if( right && !left ) {
+				beetle.x += 0;
+				if( seinä.wall.hitTestPoint(beetle.x+beetle.width,beetle.y,true) ){
+					beetle.x -= 5;
+				}
+				if( seinä.wall.hitTestPoint(beetle.x+beetle.width,beetle.y+height,true) ){
+					beetle.x -= 5;
+				}
 			}
 		}
 		
