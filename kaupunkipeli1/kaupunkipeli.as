@@ -38,7 +38,8 @@
 			
 			// Update screen every frame
 			addEventListener(Event.ENTER_FRAME,enterFrameHandler);
-			addEventListener(Event.ENTER_FRAME,moi);
+			addEventListener(Event.ENTER_FRAME,seinät);
+			addEventListener(Event.ENTER_FRAME,autot);
 			
 			
 		}
@@ -104,7 +105,7 @@
 		}
 		
 		
-		protected function moi(event:Event):void
+		protected function seinät(event:Event):void
 		{
 			// Detect if edges of the player beetle 
 			// are colliding with the maze walls.
@@ -145,6 +146,49 @@
 				}
 			}
 		}
+		
+		protected function autot(event:Event):void
+		{
+		if( down && !up ) {
+				beetle.y += 0;
+				if( Auto_3.hitTestPoint(beetle.x,beetle.y+beetle.height,true) ){
+					gotoAndStop(2);
+				}
+				if(seinä.wall.hitTestPoint(beetle.x+beetle.width,beetle.y+beetle.height,true) ){
+					gotoAndStop(2);
+				}
+			}
+			if(  up && !down ) {
+				beetle.y -= 0;
+				if( Auto_3.hitTestPoint(beetle.x,beetle.y,true) ){
+					gotoAndStop(2);
+				}
+				if( Auto_3.hitTestPoint(beetle.x+beetle.width,beetle.y,true) ){
+					gotoAndStop(2);
+				}
+			}
+			if( left && !right ) {
+				beetle.x -= 0;
+				if( Auto_3.hitTestPoint(beetle.x,beetle.y,true) ){
+					gotoAndStop(2);
+				}
+				if( Auto_3.hitTestPoint(beetle.x,beetle.y+height,true) ){
+					gotoAndStop(2);
+				}
+			}
+			if( right && !left ) {
+				beetle.x += 0;
+				if( Auto_3.hitTestPoint(beetle.x+beetle.width,beetle.y,true) ){
+					gotoAndStop(2);
+				}
+				if( Auto_3.hitTestPoint(beetle.x+beetle.width,beetle.y+height,true) ){
+					gotoAndStop(2);
+				}
+				loppu.width/2;
+				
+			}
+		}
+		
 		
 		protected function keyPressHandler(event:KeyboardEvent):void
 		{
